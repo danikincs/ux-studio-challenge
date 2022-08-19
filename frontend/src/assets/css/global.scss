@@ -1,0 +1,140 @@
+//fonts
+@font-face {
+    font-family: 'glysa';
+    src: local('glysa'), url(../fonts/Glysa.otf) format('otf');
+}
+
+//lexend
+@font-face {
+    font-family: 'lexend';
+    src: local('lexend'), url(../fonts/LexendDeca-VariableFont_wght.ttf) format('ttf ');
+}
+
+//global variables
+
+//colors
+$gray100: #141414;
+$gray90: #191919;
+$gray80: #1E1E1E;
+$gray70: #232323;
+$gray60: #282828;
+$gray50: #2D2D2D;
+$gray40: #323232;
+$gray30: #373737;
+$gray20: #3C3C3C;
+$gray10: #414141;
+
+//fonts
+$font-glysa: glysa, sans-serif;
+$font-lexend: lexend, sans-serif;
+
+
+
+// global designs
+.headline-1 {
+    font-family: $font-glysa;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 48px;  
+    letter-spacing: 0;
+}
+
+.headline-2 {
+    font-family: $font-glysa;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 40px;
+}
+
+.headline-3 {
+    font-family: $font-lexend;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;    
+    letter-spacing: 0.01em;
+}
+
+.body-text {
+    font-family: $font-lexend;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.01em;
+}
+
+.message-text {
+    font-family: $font-lexend;
+    font-style: normal;
+    font-weight: 400; 
+    font-size: 12px;
+    line-height: 16px;    
+    letter-spacing: 0.01em;
+}
+
+//avatar
+.profile-picture {
+    width: 88px;
+    height: 88px;
+    border-radius: 50px;
+}
+
+.profile-picture-small {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+}
+
+
+//buttons
+.primary-button {
+}
+
+.primary-button-gradiant {
+    color:white;
+         
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px 8px 12px;
+    gap: 8px;
+    
+    width: 119px;
+    height: 40px;
+    
+    background: linear-gradient(180deg, rgba(40, 40, 40, 0.7) 0%, #282828 100%), #141414;
+    border: 0;
+
+    border-radius: 1000px;
+}
+
+.primary-button-gradiant:hover {
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), linear-gradient(180deg, rgba(40, 40, 40, 0.7) 0%, #282828 100%), #141414;
+}
+
+.primary-button-gradiant:active {
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), linear-gradient(180deg, rgba(40, 40, 40, 0.7) 0%, #282828 100%), #141414;
+}
+
+.secondary-button {
+    background: $gray60;
+    border-radius: 8px;
+}
+
+.secondary-button:hover {
+    background: $gray50;
+}
+
+.secondary-button:focus {
+    background: $gray40;
+}
+
+.small-button {
+
+}
+ 
+//base css
+html, body {
+    background-color: $gray100;
+    color: white;
+}

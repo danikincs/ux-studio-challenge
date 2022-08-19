@@ -1,0 +1,11 @@
+//bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+//Global styles
+@import "./global.scss";
+
+//Components styles
+@import "./components/header-nav-bar.component";
+@import "./components/contact.component";
+
+//page styles
