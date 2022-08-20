@@ -1,0 +1,61 @@
+.home-page-container {
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .grid-col:not(:last-child) {
+        border-right: 1px solid #282828;
+    }
+
+    .home-grid-row:not(:last-child) {
+        border-bottom: 1px solid #282828;
+
+    }
+
+    .home-grid-row:first-child {
+        height: 96px;
+        .col {
+            height: 96px;
+        }
+    }
+
+    .home-grid-row:last-child {
+        height: 100vh;
+    }
+
+    .home-grid-row {
+
+        .grid-col {
+            position: relative;
+        }
+        .back {
+            margin-right: 36px;
+            position: absolute;
+            gap: 8px;
+            right: 0px;
+            top: calc(50% - 40px/2);
+
+            @media screen and (max-width: 990px) {
+                display: none;
+            }
+        }
+
+        .brightness {
+            margin-left: 36px;
+            gap: 8px;
+            left: 0px;
+            position: absolute;
+            top: calc(50% - 40px/2);
+
+            @media screen and (max-width: 990px) {
+                display: none;
+            }
+        }
+    }
+
+    .contacts-container {
+        padding-left: 24px;
+        padding-right: 24px;
+        padding-top: 12px;
+    }
+}

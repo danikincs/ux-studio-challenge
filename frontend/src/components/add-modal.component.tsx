@@ -1,6 +1,9 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Form, Modal, Row } from "react-bootstrap";
 import { IContact } from "./contact.component";
+import add from "../assets/images/icons/Add.png"
+import change from "../assets/images/icons/Change.png"
+import trash from "../assets/images/icons/Delete.png"
 
 //default avatar
 import default_avatar from "../assets/images/avatars/Default.png"
@@ -9,16 +12,39 @@ interface IProps {
     show:boolean
     onHide:() => void
     addContact: (contact:IContact) => void
+    selectedContact: IContact | undefined
+    updateContactData: (contact:IContact) => void
 }
+
+const defaultContactData = {_id:"", name:"", phone:"", email:"", avatar:""}
 
 export default function AddContactModal(props:IProps) {
 
-    const [ newContactData, setNewContactData ] = useState<IContact>({_id:0, name:"", phone:"", email:"", avatar:""});
+    const [ newContactData, setNewContactData ] = useState<IContact>(defaultContactData);
+
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if(props.selectedContact) {
+            setNewContactData(props.selectedContact)
+        } 
+        else {
+            setNewContactData(defaultContactData)
+        }
+
+    }, [props.selectedContact])
 
     function submitContactForm(evt:any) {
         evt.preventDefault();
-        props.addContact(newContactData)
-        props.onHide();
+
+        if(props.selectedContact) {
+            props.updateContactData(newContactData);
+        }
+        else {
+            evt.preventDefault();
+            props.addContact(newContactData)
+            props.onHide();
+        }
     }
 
     async function fileUpload(event: FormEvent) {
@@ -32,34 +58,38 @@ export default function AddContactModal(props:IProps) {
 
     return(
         <Modal show={props.show} onHide={props.onHide} dialogClassName="add-contact-modal" backdrop="static">
-            <Modal.Header> 
-                <p>Add contact </p>
-            </Modal.Header>
             <Modal.Body>
-            <form onSubmit={ (evt) =>submitContactForm(evt)}>
-                <img src={newContactData.avatar ? newContactData.avatar : default_avatar} alt="uploaded-avatar"></img>
+                <p className="headline-1">Add contact</p>
+                <form className="add-contact-form" onSubmit={ (evt) =>submitContactForm(evt)}>
+                    <div className="profile-picture-uploader">
+                        <img className="profile-picture" src={newContactData.avatar ? newContactData.avatar : default_avatar} alt="uploaded-avatar"></img>
+                        {/* <div className="upload-container"> */}
+                            <button onClick={() => inputRef.current ? inputRef.current.click() : null} className="primary-button"><img src={newContactData.avatar ? change : add} alt="plus" />{newContactData.avatar ? "Change Picture" : "Add Picture"}</button>
+                            <input ref={inputRef} className="upload-button" type="file" id="single" onChange={fileUpload} hidden />
+                            {newContactData.avatar && (<button className="small-button"><img src={trash} alt="trash" /></button>)}
+                        {/* </div> */}
+                    </div>
 
-                <div className="upload-container">
-                    <label htmlFor="single" className="link-button btn">
-                        Upload profile photo
-                    </label>
-                    <input className="upload-button" type="file" id="single" onChange={fileUpload} hidden />
-                </div>
+                    <div className="input-group">
+                        <label htmlFor="name">Name</label>
+                        <input required value={newContactData.name} onChange={(evt) => setNewContactData((prev) => { return {...prev, name:evt.target.value} } )} type="text" id="name" name="name" />
+                    </div>
 
-                <label>Name
-                    <input onChange={(evt) => setNewContactData((prev) => { return {...prev, name:evt.target.value} } )} type="text" name="name" />
-                </label>
-                <label>Phone number
-                    <input onChange={(evt) => setNewContactData((prev) => { return {...prev, phone:evt.target.value} } )} type="text" name="phone-number" />
-                </label>
-                <label>Email address
-                    <input onChange={(evt) => setNewContactData((prev) => { return {...prev, email:evt.target.value} } )} type="email" name="name" />
-                </label>
-                <div className="interaction-container">
-                    <button onClick={props.onHide}>Cancel</button>
-                    <button type="submit">Done</button>
-                </div>
-            </form>
+                    <div className="input-group">
+                        <label>Phone number</label>
+                        <input required value={newContactData.phone} onChange={(evt) => setNewContactData((prev) => { return {...prev, phone:evt.target.value} } )} type="text" id="phone-number" name="phone-number" />
+                    </div>
+
+                    <div className="input-group">
+                        <label>Email address</label>
+                        <input required value={newContactData.email} onChange={(evt) => setNewContactData((prev) => { return {...prev, email:evt.target.value} } )} type="email" id="email" name="email" />
+                    </div>
+
+                    <div className="interaction-container">
+                        <button className="secondary-button" type="submit">Done</button>
+                        <button className="secondary-button-dark" onClick={(evt) => {props.onHide(); evt.preventDefault()}}>Cancel</button>
+                    </div>
+                </form>
             </Modal.Body>
         </Modal>
     )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import AddContactModal from '../components/add-modal.component';
 import Contact, { IContact } from '../components/contact.component';
 import HeaderNavBar from '../components/header-nav-bar.component';
@@ -8,16 +8,20 @@ import HeaderNavBar from '../components/header-nav-bar.component';
 import timothy_avatar from "../assets/images/avatars/Timothy.png";
 import sarah_avatar from "../assets/images/avatars/Sarah.png";
 
+//icons
+import back from "../assets/images/icons/Back-arrow.png";
+import brightness from "../assets/images/icons/Light-mode.png";
+
 const default_contacts: IContact[] = [
     {
-        _id:1,
+        _id:"1",
         avatar:timothy_avatar,
         name:"Timothy Lewis",
         phone:"+36 01 234 5678",
         email:"danikincs@gmail.com"
     },
     {
-        _id:2,
+        _id:"2",
         avatar:sarah_avatar,
         name:"Sarah Wright",
         phone:"+36 01 234 5678",
@@ -31,9 +35,10 @@ function Home() {
     const [ loading, setLoading ] = useState<boolean>(true);
 
     const [ showAddContactModal, setShowAddContactModal ] = useState<boolean>(false);
+    const [ showSettingDetails, setShowSettingDetails ] = useState<string>('')
 
     //update contact
-    const [ selectedContactId, setSelectedContactId ] = useState<number | undefined>(undefined)
+    const [ selectedContact, setSelectedContact ] = useState<IContact | undefined>(undefined)
 
     useEffect(() => {
         setContacts(default_contacts);
@@ -44,33 +49,84 @@ function Home() {
         setContacts(prev => [...prev, newContact])
     }
 
-    function updateContact() {
+    function editContact(_id:string) {
+        const selected = contacts.find((contact:IContact) => contact._id === _id)
 
+        if(!selected) {
+            return;
+        }
+
+        setSelectedContact(selected);
+        setShowAddContactModal(true)
     }
 
-    function deleteCOntact() {
+    function deleteContact(_id:string) {
+        setContacts(prev => {
+            const newData = prev.filter((contact:IContact) => contact._id !== _id)
+            return newData
+        })
+    }
 
+    function updateContactData(newContactData:IContact) {
+        setContacts(prev => {
+            return prev.map((contact:IContact) => contact._id === newContactData._id ? newContactData : contact)
+        })
     }
 
     return (
         <div className="home-page-container">
-            <HeaderNavBar handleModalAction={() => setShowAddContactModal(true)} />
+            <Row className="home-grid-row">
+                <Col className="grid-col" lg={3}>
+                </Col>
+                <Col className="grid-col" lg={6}>
+                </Col>
+                <Col className="grid-col" lg={3}>
+                </Col>
+            </Row>
+            <Row className="home-grid-row">
+                <Col className="grid-col" lg={3}>
+                    <button className="small-button-dark back"><img src={back} alt="back"/></button>
+                </Col>
+                <Col className="grid-col" lg={6}>
+                    <HeaderNavBar handleModalAction={() => setShowAddContactModal(true)} />
+                </Col>
+                <Col className="grid-col" lg={3}>
+                    <button className="small-button-dark brightness"><img src={brightness} alt="brightness"/></button>
+                </Col>
+            </Row>
+            <Row className="home-grid-row">
+                <Col className="grid-col" lg={3}>
+                </Col>
+                <Col className="grid-col" lg={6}>
+                    {!loading ?
+                    <div className='contacts-container'>
+                        {contacts.map((contact:IContact) => {
+                            return(
+                                <Contact 
+                                    contact={contact} 
+                                    editContact={editContact} 
+                                    deleteContact={deleteContact}
+                                    showSettingDetails={showSettingDetails}
+                                    setShowSettingDetails={setShowSettingDetails}
 
-            {!loading ?
-                <div className='contacts-container'>
-                    {contacts.map((contact:IContact) => {
-                        return(
-                            <Contact _id={contact._id} avatar={contact.avatar} name={contact.name} phone={contact.phone} email={contact.email} />
-                        )
-                    })}
-                </div>
-            :
-                <p>Loading</p>
-            }
+                                />
+                            )
+                        })}
+                    </div>
+                    :
+                        <p>Loading</p>
+                    }
+                </Col>
+                <Col className="grid-col" lg={3}>
+                </Col>
+            </Row>
+
             <AddContactModal 
                 show={showAddContactModal} 
                 onHide={() => setShowAddContactModal(false)} 
                 addContact={addContact} 
+                selectedContact={selectedContact}
+                updateContactData={updateContactData}
                 />
         </div>
     );

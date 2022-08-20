@@ -18,19 +18,12 @@ export default function HeaderNavBar(props:IProps) {
             <h1 className="headline-1">Contacts</h1>
 
             <div className="nav-bar-interaction-container">
-                <div>
-                    <img className="outside-icon" src={settings} alt="settings" />
-                </div>
-                <div>
-                    <img className="outside-icon" src={avatar} alt="small-avatar" />
-                </div>
-                <div>
-                    <button className="primary-button-gradiant" onClick={props.handleModalAction}>
-                        <img src={add} alt="add" />
-                        <span className="body-text">Add new</span>
-                    </button>
-                </div>
-
+                <button className="small-button"><img src={settings} alt="settings"/></button> 
+                <button className="small-button-dark"><img src={avatar} alt="small-avatar" /></button> 
+                <button className="primary-button-gradiant" onClick={props.handleModalAction}>
+                    <img src={add} alt="add" />
+                    <span className="body-text">Add new</span>
+                </button>
             </div>
 
         </div>

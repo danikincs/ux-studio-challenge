@@ -1,0 +1,39 @@
+.add-contact-modal {
+
+    width: 364px;
+
+    border: none;
+
+    .modal-content {
+        background-color: #141414;
+        border-radius: 8px;
+
+        .modal-body {
+            border-radius: 8px;
+
+            .headline-1 {
+                margin-bottom: 24px;
+            }
+
+            .profile-picture-uploader {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 0px;
+                gap: 16px;
+
+                margin-bottom: 24px ;
+            }
+
+            .interaction-container {
+                margin-top: 24px;
+
+                button {
+                    float: right;
+                    margin: 10px;
+                }
+            }
+
+        }
+    }
+}

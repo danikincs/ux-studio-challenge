@@ -88,6 +88,25 @@ $font-lexend: lexend, sans-serif;
 
 //buttons
 .primary-button {
+    border: none;
+    background: $gray60;
+    border-radius: 8px;
+    color: white;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 16px 8px 12px;
+
+    font-family: $font-lexend;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+
+    img {
+        margin-right: 12px;
+    }
 }
 
 .primary-button-gradiant {
@@ -106,35 +125,125 @@ $font-lexend: lexend, sans-serif;
     border: 0;
 
     border-radius: 1000px;
-}
 
-.primary-button-gradiant:hover {
-    background: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), linear-gradient(180deg, rgba(40, 40, 40, 0.7) 0%, #282828 100%), #141414;
-}
+    &:hover {
+        background: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), linear-gradient(180deg, rgba(40, 40, 40, 0.7) 0%, #282828 100%), #141414;
+    }
 
-.primary-button-gradiant:active {
-    background: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), linear-gradient(180deg, rgba(40, 40, 40, 0.7) 0%, #282828 100%), #141414;
+    &:active {
+        background: linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)), linear-gradient(180deg, rgba(40, 40, 40, 0.7) 0%, #282828 100%), #141414;
+    }
 }
 
 .secondary-button {
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    gap: 8px;
     background: $gray60;
     border-radius: 8px;
+
+    &:hover {
+        background: $gray50;
+    }
+    
+    &:focus {
+        background: $gray40;
+    }
 }
 
-.secondary-button:hover {
-    background: $gray50;
-}
+.secondary-button-dark {
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    gap: 8px;
+    background: $gray100;
+    border-radius: 8px;
 
-.secondary-button:focus {
-    background: $gray40;
+    &:hover {
+        background: $gray90;
+
+    }
+
+    &:focus {
+        background: $gray80;
+
+    }
 }
 
 .small-button {
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    background: $gray60;
 
+    &:hover {
+        background: $gray50;
+    }
+
+    &:active {
+        background: $gray40;
+    }
 }
+
+.small-button-dark {
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+    background: $gray100;
+
+    &:hover {
+        background: $gray90;
+    }
+
+    &:active {
+        background: $gray80;
+    }
+}
+
  
 //base css
 html, body {
     background-color: $gray100;
     color: white;
+}
+
+//inputs
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 4px;
+
+    label {
+        font-family: $font-lexend;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+        /* identical to box height, or 133% */
+
+        letter-spacing: 0.01em;
+
+        /* Text & Icon / Secondary */
+
+        color: rgba(255, 255, 255, 0.56);
+    }
+
+    input {
+        width: 100%;
+        margin-bottom: 24px;
+
+        padding: 8px 12px;
+        gap: 8px;
+
+        /* Grey / G 80 */
+        background:  $gray80;
+        /* Grey / G 60 */
+
+        border: 1px solid  $gray60;
+        border-radius: 8px;
+    }
 }
