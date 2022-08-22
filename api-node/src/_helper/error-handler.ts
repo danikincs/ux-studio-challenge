@@ -10,7 +10,8 @@ export class HttpException extends Error {
         this.message = message;
     }
 }
-   
+
+//base global error handler
 export const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
     const status = error.status || 500;
     const message = error.message || 'Something went wrong';

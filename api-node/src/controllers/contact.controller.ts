@@ -7,6 +7,9 @@ import path from "path";
 
 const unlinkAsync = promisify(fs.unlink)
 
+/**
+ * Get contacts by query
+ */
 export async function getContactsController(req:Request, res:Response, next:NextFunction) {
     try {
         const contacts = await getContactsService(req.query);
@@ -18,6 +21,9 @@ export async function getContactsController(req:Request, res:Response, next:Next
 
 }
 
+/**
+ * Create new contact. Parameters required
+ */
 export async function createContactController(req:Request, res:Response, next:NextFunction) {
     try {
 
@@ -43,6 +49,10 @@ export async function createContactController(req:Request, res:Response, next:Ne
     }
 }
 
+/**
+ * update a contact
+ * if avatar change delete the old one
+ */
 export async function updateContactController(req:Request, res:Response, next:NextFunction) {
 
     try {
@@ -52,12 +62,10 @@ export async function updateContactController(req:Request, res:Response, next:Ne
         };
 
         const contact = await getContactService({_id:_id})
-        console.log('contact', contact)
         if(!contact) {
             res.status(404).send("Contact not found.")
             return
         }
-
 
         if(req.file) {
             contactData = {...contactData, avatar:req.file.filename}
@@ -72,6 +80,9 @@ export async function updateContactController(req:Request, res:Response, next:Ne
     }
 }
 
+/**
+ *  delete a contact + avatar related to it.
+ */
 export async function deleteContactController(req:Request, res:Response, next:NextFunction) {
     try {
         const _id = req.params.id

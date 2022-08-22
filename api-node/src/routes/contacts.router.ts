@@ -5,7 +5,7 @@ import path from 'path';
 
 const router = express.Router();
 
-
+//Multer for file upload
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './src/public/')
@@ -15,25 +15,25 @@ const storage = multer.diskStorage({
     }
 });
   
-var upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
 /**
- * 
+ * GET
  */
 router.get("/", getContactsController);
 
 /**
- *
+ * POST
  */
 router.post("/", upload.single("avatar"), createContactController);
 
 /**
- * 
+ * PUT
  */
 router.put("/:id", upload.single("avatar"), updateContactController);
 
 /**
- * 
+ * DELETE
  */
 router.delete("/:id", deleteContactController);
 

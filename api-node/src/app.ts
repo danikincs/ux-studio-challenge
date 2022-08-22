@@ -23,18 +23,16 @@ import path from "path";
 
 const app = express();
 
-//serve files
+//serve avatars to public
+//TODO: avatars should be in different cloud service on live app.
 var dir = path.join(__dirname, 'public');
-
-console.log('dir', dir)
 
 app.use(express.static(dir));
 
 //setup dotenv
 dotenv.config();
 
-
-//basic body parser for req
+//basic body parser for req and extended for formData
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 
@@ -44,7 +42,6 @@ app.use(cors());
 
 //use global error handling
 app.use(errorHandler);
-
 
 //routers
 app.use("/contact", contactsRouter);

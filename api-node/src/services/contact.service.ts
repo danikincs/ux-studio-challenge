@@ -2,6 +2,11 @@ import { ObjectId } from "mongoose";
 import { IContact } from "../interfaces/db.interfaces";
 import Contacts from "../models/contact.model";
 
+/**
+ * get multiple contact objects
+ * @param query object with query parameters
+ * @returns list of contacts
+ */
 export async function getContactsService(query:any) {
     try {
         const contacts = Contacts.find(query);
@@ -12,6 +17,11 @@ export async function getContactsService(query:any) {
     }
 }
 
+/**
+ *  Get one contact object
+ * @param query object with query parameters
+ * @returns one contact object
+ */
 export async function getContactService(query:any) {
     try {
         const contact = Contacts.findOne(query);
@@ -22,6 +32,11 @@ export async function getContactService(query:any) {
     }
 }
 
+/**
+ * Create a contact object
+ * @param contact contact data with every required parameter
+ * @returns new contact object
+ */
 export async function createContactService(contact:IContact) {
     try {
         const newContact = Contacts.create(contact);
@@ -32,6 +47,12 @@ export async function createContactService(contact:IContact) {
     }
 }
 
+/**
+ * Update a contact object
+ * @param _id string as object_id
+ * @param newData contact data (fields not required)
+ * @returns new contact object
+ */
 export async function updateContactService(_id:string, newData:any) {
     try {
         const updatedContact = Contacts.findOneAndUpdate({_id:_id}, newData, {new:true});
@@ -42,6 +63,11 @@ export async function updateContactService(_id:string, newData:any) {
     }
 }
 
+/**
+ * Delete a contact object
+ * @param query object with parameters
+ * @returns deletion success
+ */
 export async function deleteContactService(query:any) {
     try {
         const deleted = Contacts.deleteOne(query);
