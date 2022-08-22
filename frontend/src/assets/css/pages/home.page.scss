@@ -15,11 +15,14 @@
         @media screen and (max-width: 990px) {
             height: calc(100vh  - 96px );
         }
-        .grid-col:first-child {
-            display: none;
-        }
-        .grid-col:last-child {
-            display: none;
+
+        @media screen and (max-width: 580px) {            
+            .grid-col:first-child {
+                display: none;
+            }
+            .grid-col:last-child {
+                display: none;
+            }
         }
     }
 

@@ -131,7 +131,7 @@ function Home() {
                         <p>Loading</p>
                     }
                 </Col>
-                <Col className="grid-col" lg={3} sm={0} md={1}>
+                <Col className="grid-col" lg={3} sm={1} md={1}>
                 </Col>
             </Row>
 
