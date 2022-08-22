@@ -1,0 +1,22 @@
+.header-container {
+    padding: 24px;
+
+    display: flex;
+    justify-content: space-between;
+
+    .headline-1 {
+        // float: left;
+    }
+
+    .nav-bar-interaction-container {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 24px;
+        
+        @media screen and (max-width: 990px) {
+            gap: 1px;
+        }
+    }
+}

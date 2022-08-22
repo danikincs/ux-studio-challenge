@@ -1,0 +1,93 @@
+.contact-container {
+
+    padding-top: 12px;
+    padding-bottom: 12px;
+    height: 64px;
+    position: relative;
+
+    .image-container {
+        margin-right: 16px;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0px;
+        gap: 16px;
+
+        position: absolute;
+        left: 0px;
+        top: calc(50% - 40px/2);
+    }
+
+    .name-container {
+        p {
+            margin: 0;
+        }
+    }
+
+    .icon-container {
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0px;
+        gap: 8px;
+        
+        position: absolute;
+        right: 0px;
+
+    }
+
+    .more-container {
+        position: relative;
+
+        .more-details {
+            position: absolute;
+            left: 0px;
+            margin-top: 10px;
+            
+            width: 240px;
+            height: 132px;
+            padding: 0px;
+            background: #1E1E1E;
+            border-radius: 8px;
+
+            z-index: 10;
+
+            @media screen and (max-width: 990px) {
+                left: -200px;;
+            }
+
+            .action-row {
+
+                p {
+                    margin: 0;
+                }
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 12px 10px;
+                gap: 12px;
+
+                height: 44px;
+            }
+
+            .action-row:hover {
+                background: #232323;
+
+                &:first-child {
+                    border-top-right-radius: 8px;
+                    border-top-left-radius: 8px;
+                }
+
+                &:last-child {
+                    border-bottom-right-radius: 8px;
+                    border-bottom-left-radius: 8px;
+                }
+
+                cursor: pointer;
+            }
+        }
+    }
+
+}

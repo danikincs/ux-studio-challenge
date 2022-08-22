@@ -1,0 +1,14 @@
+//bootstrap
+@import "~bootstrap/scss/bootstrap";
+@import "~react-toastify/dist/ReactToastify.css";
+
+//Global styles
+@import "./global.scss";
+
+//Components styles
+@import "./components/header-nav-bar.component";
+@import "./components/contact.component";
+@import "./components//add-contact-modal";
+
+//page styles
+@import "./pages/home.page";

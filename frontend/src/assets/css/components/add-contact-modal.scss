@@ -1,0 +1,52 @@
+.add-contact-modal {
+
+    width: 364px;
+    border: none;
+
+    padding: 24px 0px 0px;
+    gap: 24px;
+
+    margin: auto;
+
+    .modal-content {
+        background-color: #141414;
+        border-radius: 8px;
+
+        .modal-body {
+            border-radius: 8px;
+            padding: 24px;
+
+            .headline-1 {
+                margin-bottom: 24px;
+            }
+
+            .profile-picture-uploader {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                padding: 0px;
+                gap: 10px;
+
+                margin-bottom: 24px ;
+
+                div {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    padding: 0px;
+                    gap: 8px;
+                }
+            }
+
+            .interaction-container {
+                margin-top: 24px;
+
+                button {
+                    float: right;
+                    margin: 10px;
+                }
+            }
+
+        }
+    }
+}
