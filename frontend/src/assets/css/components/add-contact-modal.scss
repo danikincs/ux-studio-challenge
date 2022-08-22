@@ -1,8 +1,10 @@
 .add-contact-modal {
 
     width: 364px;
-
     border: none;
+
+    padding: 24px 0px 0px;
+    gap: 24px;
 
     .modal-content {
         background-color: #141414;
@@ -10,6 +12,7 @@
 
         .modal-body {
             border-radius: 8px;
+            padding: 24px;
 
             .headline-1 {
                 margin-bottom: 24px;
@@ -20,7 +23,7 @@
                 flex-direction: row;
                 align-items: center;
                 padding: 0px;
-                gap: 16px;
+                gap: 8px;
 
                 margin-bottom: 24px ;
             }

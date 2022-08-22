@@ -1,34 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import AddContactModal from '../components/add-modal.component';
 import Contact, { IContact } from '../components/contact.component';
 import HeaderNavBar from '../components/header-nav-bar.component';
-
-//default user avatars
-import timothy_avatar from "../assets/images/avatars/Timothy.png";
-import sarah_avatar from "../assets/images/avatars/Sarah.png";
+import { toast } from 'react-toastify';
 
 //icons
 import back from "../assets/images/icons/Back-arrow.png";
 import brightness from "../assets/images/icons/Light-mode.png";
 import instance from '../_helpers/api';
-
-const default_contacts: IContact[] = [
-    {
-        _id:"1",
-        avatar:timothy_avatar,
-        name:"Timothy Lewis",
-        phone:"+36 01 234 5678",
-        email:"danikincs@gmail.com"
-    },
-    {
-        _id:"2",
-        avatar:sarah_avatar,
-        name:"Sarah Wright",
-        phone:"+36 01 234 5678",
-        email:"danikincs@gmail.com"
-    }
-]
+import { useOutsideAlerter } from '../_helpers/outside-click-alert.component';
 
 function Home() {
 
@@ -36,23 +17,33 @@ function Home() {
     const [ loading, setLoading ] = useState<boolean>(true);
 
     const [ showAddContactModal, setShowAddContactModal ] = useState<boolean>(false);
-    const [ showSettingDetails, setShowSettingDetails ] = useState<string>('')
+    const [ showSettingDetails, setShowSettingDetails ] = useState<string>('');
+
+    //ref for clicker
+    const cliclkerRef = useRef<string>('');
+    useEffect(() => {
+        cliclkerRef.current = showSettingDetails;
+    }, [showSettingDetails]);
 
     //update contact
-    const [ selectedContact, setSelectedContact ] = useState<IContact | undefined>(undefined)
+    const [ selectedContact, setSelectedContact ] = useState<IContact | undefined>(undefined);
 
     useEffect(() => {
         getContacts();
         setLoading(false);
     }, []);
 
+    const outerRef = useRef<HTMLDivElement>(null);
+
+    useOutsideAlerter(outerRef, showSettingDetails, setShowSettingDetails );
+
     async function getContacts() {
         try {
             const contactsResponse = await instance.get("/contact");
-            console.log('contacts', contactsResponse.data);
             setContacts(contactsResponse.data);
         }
         catch(err) {
+            toast.error("Failed to get contact.")
 
         }
     }
@@ -84,8 +75,10 @@ function Home() {
             }            
         }
         catch(err:any) {
-            console.log('error', err)
+            toast.error("Failed to delete contact.")
         }
+
+        setShowSettingDetails('');
     }
 
     async function updateContactData(newContactData:IContact) {
@@ -97,30 +90,30 @@ function Home() {
     return (
         <div className="home-page-container">
             <Row className="home-grid-row">
-                <Col className="grid-col" lg={3}>
+                <Col className="grid-col" lg={3} sm={1} md={1}>
                 </Col>
                 <Col className="grid-col" lg={6}>
                 </Col>
-                <Col className="grid-col" lg={3}>
+                <Col className="grid-col" lg={3} sm={1} md={1}>
                 </Col>
             </Row>
             <Row className="home-grid-row">
-                <Col className="grid-col" lg={3}>
+                <Col className="grid-col" lg={3} sm={1} md={1}>
                     <button className="small-button-dark back"><img src={back} alt="back"/></button>
                 </Col>
                 <Col className="grid-col" lg={6}>
                     <HeaderNavBar handleModalAction={() => setShowAddContactModal(true)} />
                 </Col>
-                <Col className="grid-col" lg={3}>
+                <Col className="grid-col" lg={3} sm={1} md={1}>
                     <button className="small-button-dark brightness"><img src={brightness} alt="brightness"/></button>
                 </Col>
             </Row>
             <Row className="home-grid-row">
-                <Col className="grid-col" lg={3}>
+                <Col className="grid-col" lg={3} sm={1} md={1}>
                 </Col>
-                <Col className="grid-col" lg={6}>
+                <Col className="grid-col contacts-container-cell" lg={6} md={10} sm={10}>
                     {!loading ?
-                    <div className='contacts-container'>
+                    <div ref={outerRef} className='contacts-container'>
                         {contacts.map((contact:IContact) => {
                             return(
                                 <Contact 
@@ -129,7 +122,6 @@ function Home() {
                                     deleteContact={deleteContact}
                                     showSettingDetails={showSettingDetails}
                                     setShowSettingDetails={setShowSettingDetails}
-
                                 />
                             )
                         })}
@@ -139,7 +131,7 @@ function Home() {
                         <p>Loading</p>
                     }
                 </Col>
-                <Col className="grid-col" lg={3}>
+                <Col className="grid-col" lg={3} sm={0} md={1}>
                 </Col>
             </Row>
 

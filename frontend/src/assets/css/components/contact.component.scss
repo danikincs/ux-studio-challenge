@@ -40,7 +40,6 @@
 
     .more-container {
         position: relative;
-        z-index: 10;
 
         .more-details {
             position: absolute;
@@ -52,6 +51,12 @@
             padding: 0px;
             background: #1E1E1E;
             border-radius: 8px;
+
+            z-index: 10;
+
+            @media screen and (max-width: 990px) {
+                left: -200px;;
+            }
 
             .action-row {
 

@@ -1,5 +1,4 @@
-import React, { useState, useRef } from "react";
-import { Row,Col } from "react-bootstrap";
+import { useState } from "react";
 
 //interaction svg-s
 import mute from "../assets/images/icons/Mute.png";
@@ -8,7 +7,6 @@ import more from "../assets/images/icons/More.png";
 import edit from "../assets/images/icons/Settings.png";
 import favourite from "../assets/images/icons/Favourite.png";
 import remove from "../assets/images/icons/Delete.png";
-import { useOutsideAlerter } from "../_helpers/outside-click-alert.component";
 
 interface IProps {
     contact:IContact
@@ -19,13 +17,13 @@ interface IProps {
     showSettingDetails:string
     setShowSettingDetails:(data:string) => void
 }
+
 export interface IContact {
     _id:string
     avatar:string
     name:string
     phone:string
     email:string
-
 }
 
 export default function Contact(props:IProps) {
@@ -34,10 +32,6 @@ export default function Contact(props:IProps) {
     const { _id, avatar, name, phone } = props.contact;
 
     const [ isHovering, setIsHovering ] = useState(false);
-
-    const outerRef = useRef<HTMLDivElement>(null);
-    useOutsideAlerter(outerRef, props.showSettingDetails, props.setShowSettingDetails);
-
 
     const handleMouseOver = () => {
         if(!props.showSettingDetails.length) {
@@ -50,12 +44,12 @@ export default function Contact(props:IProps) {
     };
 
     return(
-        <div ref={outerRef} key={_id} className="contact-container" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+        <div key={_id} className="contact-container" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
             <div className="image-container">
                 <img className="profile-picture-small" src={`${process.env.REACT_APP_API_URL}/${avatar}`} alt="user-avatar" />
                 <div className="name-container">
                     <p className="headline-3">{name}</p>
-                    <p className="message-text">{phone}</p>
+                    <p className="icon-secondary">{phone}</p>
                 </div>
             </div>
             {(isHovering || props.showSettingDetails === _id) && (

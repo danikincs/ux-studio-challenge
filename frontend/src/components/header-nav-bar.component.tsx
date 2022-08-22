@@ -1,6 +1,3 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
-
 //icons
 import settings from "../assets/images/icons/Settings.png";
 import avatar from "../assets/images/icons/Profile-pic.png";

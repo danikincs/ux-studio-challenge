@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import Home from './pages/home.page';
 import './assets/css/styles.scss';
+import { ToastContainer } from 'react-toastify';
+
+//fonts
+import './assets/fonts/Glysa.otf';
+import './assets/fonts/LexendDeca-VariableFont_wght.ttf';
+
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -10,6 +16,10 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <Home />
+        <ToastContainer 
+            position="bottom-right"
+            theme='dark'
+        />
     </React.StrictMode>
 );
 

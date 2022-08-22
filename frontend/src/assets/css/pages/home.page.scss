@@ -3,6 +3,26 @@
     overflow-y: auto;
     overflow-x: hidden;
 
+    .home-grid-row:first-child {
+        @media screen and (max-width: 990px) {
+            display: none;
+        }
+    }
+
+    .home-grid-row:last-child {
+        height: calc(100vh - (96px + 105px));
+
+        @media screen and (max-width: 990px) {
+            height: calc(100vh  - 96px );
+        }
+        .grid-col:first-child {
+            display: none;
+        }
+        .grid-col:last-child {
+            display: none;
+        }
+    }
+
     .grid-col:not(:last-child) {
         border-right: 1px solid #282828;
     }
@@ -17,10 +37,6 @@
         .col {
             height: 96px;
         }
-    }
-
-    .home-grid-row:last-child {
-        height: 100vh;
     }
 
     .home-grid-row {

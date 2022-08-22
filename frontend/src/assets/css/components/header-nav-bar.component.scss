@@ -15,5 +15,8 @@
         padding: 0px;
         gap: 24px;
         
+        @media screen and (max-width: 990px) {
+            gap: 1px;
+        }
     }
 }

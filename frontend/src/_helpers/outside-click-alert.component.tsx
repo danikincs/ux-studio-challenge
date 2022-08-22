@@ -1,16 +1,15 @@
-import React, { useEffect, RefObject } from "react";
+import { useEffect, RefObject } from "react";
 
 /**
  * Hook that alerts clicks outside of the passed ref
  */
-export function useOutsideAlerter(ref:RefObject<HTMLDivElement>, showSettingDetails:string, setShowSettingDetails:(data:string) => void) {
+export function useOutsideAlerter(ref:RefObject<HTMLDivElement>, showSettingDetails:string, setShowSettingDetails:(data:string) => void ) {
     useEffect(() => {
         /**
          * Alert if clicked on outside of element
          */
         function handleClickOutside(event:any) {
-            console.log('haha', showSettingDetails, ref)
-            if (ref.current && !ref.current.contains(event.target) && showSettingDetails.length) {
+            if (ref.current && !ref.current.contains(event.target) && !showSettingDetails.length) {
                 setShowSettingDetails('');
             }
         }
@@ -21,5 +20,6 @@ export function useOutsideAlerter(ref:RefObject<HTMLDivElement>, showSettingDeta
             document.removeEventListener("mousedown", handleClickOutside);
         };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ref]);
 }
