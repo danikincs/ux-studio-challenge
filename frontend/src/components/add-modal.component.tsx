@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 //default avatar
 import default_avatar from "../assets/images/avatars/Default.png"
 import instance from "../_helpers/api";
+import TextInput from "./text-input.component";
 
 interface IProps {
     show:boolean
@@ -85,7 +86,8 @@ export default function AddContactModal(props:IProps) {
         }
     }
 
-    async function fileUpload(event: FormEvent) {
+    //get file from input
+    async function fileInputAction(event: FormEvent) {
         event.preventDefault();
         const target = event.target as HTMLInputElement;
         const files = target.files;
@@ -96,6 +98,7 @@ export default function AddContactModal(props:IProps) {
         }
     }
 
+    //hidden interaction for input
     function openFileUpload(event:FormEvent) {
         event.preventDefault();
         if(inputRef.current) {
@@ -112,25 +115,14 @@ export default function AddContactModal(props:IProps) {
                         <img className="profile-picture" src={(newContactData.avatar && avatar !== undefined) ? newContactData.avatar : (newContactData.avatar && avatar === undefined) ? `${process.env.REACT_APP_API_URL}/${newContactData.avatar}` : default_avatar} alt="uploaded-avatar"></img>
                         <div>
                             <button onClick={(evt) => openFileUpload(evt)} className="primary-button"><img src={newContactData.avatar ? change : add} alt="plus" />{newContactData.avatar ? "Change Picture" : "Add Picture"}</button>
-                            <input  ref={inputRef} className="upload-button" type="file" id="single" onChange={fileUpload} hidden />
+                            <input  ref={inputRef} className="upload-button" type="file" id="single" onChange={fileInputAction} hidden />
                             {newContactData.avatar && (<button onClick={(evt) => { evt.preventDefault(); setAvatar(undefined); setNewContactData((prev) => { return {...prev, avatar:''}})}} className="small-button"><img src={trash} alt="trash" /></button>)}
                         </div>
                     </div>
 
-                    <div className="input-group">
-                        <label htmlFor="name">Name</label>
-                        <input placeholder="Jamie Wright" required value={newContactData.name} onChange={(evt) => setNewContactData((prev) => { return {...prev, name:evt.target.value} } )} type="text" id="name" name="name" />
-                    </div>
-
-                    <div className="input-group">
-                        <label>Phone number</label>
-                        <input placeholder="+01 234 5687" required value={newContactData.phone} onChange={(evt) => setNewContactData((prev) => { return {...prev, phone:evt.target.value} } )} type="tel" id="phone-number" name="phone-number" />
-                    </div>
-
-                    <div className="input-group">
-                        <label>Email address</label>
-                        <input placeholder="jamie.wright@mail.com" required value={newContactData.email} onChange={(evt) => setNewContactData((prev) => { return {...prev, email:evt.target.value} } )} type="email" id="email" name="email" />
-                    </div>
+                    <TextInput label="Name" placeholder="Jamie Wright" value={newContactData.name} onChange={(evt) => setNewContactData((prev) => { return {...prev, name:evt.target.value} } )} type="text" name="name" />
+                    <TextInput label="Phone number" placeholder="+01 234 5687" value={newContactData.phone} onChange={(evt) => setNewContactData((prev) => { return {...prev, phone:evt.target.value} } )} type="tel" name="phone-number" />
+                    <TextInput label="Email address" placeholder="jamie.wright@mail.com" value={newContactData.email} onChange={(evt) => setNewContactData((prev) => { return {...prev, email:evt.target.value} } )} type="email" name="email" />
 
                     <div className="interaction-container">
                         <button className="secondary-button" type="submit">Done</button>

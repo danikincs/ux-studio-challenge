@@ -19,12 +19,6 @@ function Home() {
     const [ showAddContactModal, setShowAddContactModal ] = useState<boolean>(false);
     const [ showSettingDetails, setShowSettingDetails ] = useState<string>('');
 
-    //ref for clicker
-    const cliclkerRef = useRef<string>('');
-    useEffect(() => {
-        cliclkerRef.current = showSettingDetails;
-    }, [showSettingDetails]);
-
     //update contact
     const [ selectedContact, setSelectedContact ] = useState<IContact | undefined>(undefined);
 
@@ -48,10 +42,12 @@ function Home() {
         }
     }
 
+    //add new contact
     function addContact(newContact:IContact) {
         setContacts(prev => [...prev, newContact])
     }
 
+    //set selected to contact object
     function editContact(_id:string) {
         const selected = contacts.find((contact:IContact) => contact._id === _id)
 
@@ -63,6 +59,7 @@ function Home() {
         setShowAddContactModal(true)
     }
 
+    //delete contact by id and update state
     async function deleteContact(_id:string) {
         try {
             const deleteRes = await instance.delete("/contact/" + _id)
@@ -81,6 +78,7 @@ function Home() {
         setShowSettingDetails('');
     }
 
+    //update contact by data and update state
     async function updateContactData(newContactData:IContact) {
         setContacts(prev => {
             return prev.map((contact:IContact) => contact._id === newContactData._id ? {...contact, ...newContactData} : contact)
@@ -89,6 +87,7 @@ function Home() {
 
     return (
         <div className="home-page-container">
+            {/* react bootstrap layout, it probably should be normal css table grid */}
             <Row className="home-grid-row">
                 <Col className="grid-col" lg={3} sm={1} md={1}>
                 </Col>

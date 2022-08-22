@@ -7,7 +7,8 @@ API
 2. npm install
 3. edit .env file
     - Add port
-    - Add mongodb url (ex: mongodb://localhost:27017/ux-studio-challenge)
+    OPTIONAL: master is running sqlite - feature/mongodb running mongo
+        - Add mongodb url (ex: mongodb://localhost:27017/ux-studio-challenge)
 4. npm start (or npm run start:nodemon for nodemon)
 
 FRONTEND
