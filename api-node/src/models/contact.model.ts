@@ -13,4 +13,12 @@ const Contacthcema: Schema = new mongoose.Schema({
     avatar: { type: String, required:true },
 });
 
+Contacthcema.pre('remove', function(next:Function) {
+    // 'this' is the client being removed. Provide callbacks here if you want
+    // to be notified of the calls' result.
+    //Vouchers.remove({user_id: this._id}).exec();
+    console.log("pre test", this);
+    next();
+});
+
 export default model<IContact>('Contacts', Contacthcema);

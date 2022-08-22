@@ -52,7 +52,7 @@ export default function Contact(props:IProps) {
     return(
         <div ref={outerRef} key={_id} className="contact-container" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
             <div className="image-container">
-                <img className="profile-picture-small" src={avatar} alt="user-avatar" />
+                <img className="profile-picture-small" src={`${process.env.REACT_APP_API_URL}/${avatar}`} alt="user-avatar" />
                 <div className="name-container">
                     <p className="headline-3">{name}</p>
                     <p className="message-text">{phone}</p>

@@ -11,6 +11,7 @@ import sarah_avatar from "../assets/images/avatars/Sarah.png";
 //icons
 import back from "../assets/images/icons/Back-arrow.png";
 import brightness from "../assets/images/icons/Light-mode.png";
+import instance from '../_helpers/api';
 
 const default_contacts: IContact[] = [
     {
@@ -41,9 +42,20 @@ function Home() {
     const [ selectedContact, setSelectedContact ] = useState<IContact | undefined>(undefined)
 
     useEffect(() => {
-        setContacts(default_contacts);
+        getContacts();
         setLoading(false);
     }, []);
+
+    async function getContacts() {
+        try {
+            const contactsResponse = await instance.get("/contact");
+            console.log('contacts', contactsResponse.data);
+            setContacts(contactsResponse.data);
+        }
+        catch(err) {
+
+        }
+    }
 
     function addContact(newContact:IContact) {
         setContacts(prev => [...prev, newContact])
@@ -60,14 +72,23 @@ function Home() {
         setShowAddContactModal(true)
     }
 
-    function deleteContact(_id:string) {
-        setContacts(prev => {
-            const newData = prev.filter((contact:IContact) => contact._id !== _id)
-            return newData
-        })
+    async function deleteContact(_id:string) {
+        try {
+            const deleteRes = await instance.delete("/contact/" + _id)
+
+            if(deleteRes.data.acknowledged) {
+                setContacts(prev => {
+                    const newData = prev.filter((contact:IContact) => contact._id !== _id)
+                    return newData
+                })
+            }            
+        }
+        catch(err:any) {
+            console.log('error', err)
+        }
     }
 
-    function updateContactData(newContactData:IContact) {
+    async function updateContactData(newContactData:IContact) {
         setContacts(prev => {
             return prev.map((contact:IContact) => contact._id === newContactData._id ? newContactData : contact)
         })
@@ -112,6 +133,7 @@ function Home() {
                                 />
                             )
                         })}
+                        {!contacts.length && <p className="info-text">No contacts avalible</p>}
                     </div>
                     :
                         <p>Loading</p>
@@ -123,7 +145,7 @@ function Home() {
 
             <AddContactModal 
                 show={showAddContactModal} 
-                onHide={() => setShowAddContactModal(false)} 
+                onHide={() => {setShowAddContactModal(false); setSelectedContact(undefined)}} 
                 addContact={addContact} 
                 selectedContact={selectedContact}
                 updateContactData={updateContactData}
