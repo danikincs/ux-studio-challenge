@@ -12,7 +12,7 @@ const unlinkAsync = promisify(fs.unlink)
  */
 export async function getContactsController(req:Request, res:Response, next:NextFunction) {
     try {
-        const contacts = await getContactsService(req.query);
+        const contacts = await getContactsService();
         res.status(200).send(contacts);
     }
     catch(err:any) {
@@ -56,12 +56,12 @@ export async function createContactController(req:Request, res:Response, next:Ne
 export async function updateContactController(req:Request, res:Response, next:NextFunction) {
 
     try {
-        const _id = req.params.id
+        const _id = parseInt(req.params.id)
         let contactData: IContact = {
             ...req.body
         };
 
-        const contact = await getContactService({_id:_id})
+        const contact = await getContactService(_id)
         if(!contact) {
             res.status(404).send("Contact not found.")
             return
@@ -85,19 +85,18 @@ export async function updateContactController(req:Request, res:Response, next:Ne
  */
 export async function deleteContactController(req:Request, res:Response, next:NextFunction) {
     try {
-        const _id = req.params.id
+        const _id = parseInt(req.params.id)
 
-        const contact = await getContactService({_id:_id})
+        const contact = await getContactService(_id)
         if(!contact) {
             res.status(404).send("Contact not found.")
             return
         }
 
-        console.log('dirrr', __dirname)
         await unlinkAsync("./src/public/" + contact.avatar)
 
-        const deletedContact = await deleteContactService({_id:_id});
-        res.status(200).send(deletedContact);
+        await deleteContactService(_id);
+        res.send({success:true});
     }
     catch(err:any) {
         next(err);

@@ -25,9 +25,17 @@
                 flex-direction: row;
                 align-items: center;
                 padding: 0px;
-                gap: 8px;
+                gap: 10px;
 
                 margin-bottom: 24px ;
+
+                div {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    padding: 0px;
+                    gap: 8px;
+                }
             }
 
             .interaction-container {

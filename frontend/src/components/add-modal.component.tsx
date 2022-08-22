@@ -18,8 +18,15 @@ interface IProps {
     updateContactData: (contact:IContact) => void
 }
 
+//default contact data
 const defaultContactData = {_id:"", name:"", phone:"", email:"", avatar:""}
 
+/**
+ * Modal for contact addition and update
+ * 
+ * @param props see interface
+ * @returns JSX
+ */
 export default function AddContactModal(props:IProps) {
 
     const [ newContactData, setNewContactData ] = useState<IContact>(defaultContactData);
@@ -39,11 +46,17 @@ export default function AddContactModal(props:IProps) {
 
     function submitContactForm(evt:any) {
         evt.preventDefault();
-        createNewContact();
+        sumbitContact();
     }
 
-    async function createNewContact() {
+    //Update or create new contact based on input
+    async function sumbitContact() {
         try {
+
+            if(!avatar && !newContactData.avatar) {
+                toast.warning("Avatar is required !")
+                return
+            }
 
             const formdata = new FormData();
             formdata.append("name", newContactData.name);
@@ -85,24 +98,23 @@ export default function AddContactModal(props:IProps) {
 
     function openFileUpload(event:FormEvent) {
         event.preventDefault();
-       if(inputRef.current) {
+        if(inputRef.current) {
             inputRef.current.click();
-       }
+        }
     }
 
     return(
         <Modal show={props.show} onHide={props.onHide} dialogClassName="add-contact-modal" backdrop="static">
             <Modal.Body>
                 <p className="headline-1">Add contact</p>
-                {/* {console.log('new', newContactData.avatar, avatar)} */}
                 <form className="add-contact-form" onSubmit={ (evt) =>submitContactForm(evt)}>
                     <div className="profile-picture-uploader">
                         <img className="profile-picture" src={(newContactData.avatar && avatar !== undefined) ? newContactData.avatar : (newContactData.avatar && avatar === undefined) ? `${process.env.REACT_APP_API_URL}/${newContactData.avatar}` : default_avatar} alt="uploaded-avatar"></img>
-                        {/* <div className="upload-container"> */}
+                        <div>
                             <button onClick={(evt) => openFileUpload(evt)} className="primary-button"><img src={newContactData.avatar ? change : add} alt="plus" />{newContactData.avatar ? "Change Picture" : "Add Picture"}</button>
-                            <input ref={inputRef} className="upload-button" type="file" id="single" onChange={fileUpload} hidden />
-                            {newContactData.avatar && (<button className="small-button"><img src={trash} alt="trash" /></button>)}
-                        {/* </div> */}
+                            <input  ref={inputRef} className="upload-button" type="file" id="single" onChange={fileUpload} hidden />
+                            {newContactData.avatar && (<button onClick={(evt) => { evt.preventDefault(); setAvatar(undefined); setNewContactData((prev) => { return {...prev, avatar:''}})}} className="small-button"><img src={trash} alt="trash" /></button>)}
+                        </div>
                     </div>
 
                     <div className="input-group">
@@ -112,7 +124,7 @@ export default function AddContactModal(props:IProps) {
 
                     <div className="input-group">
                         <label>Phone number</label>
-                        <input placeholder="+01 234 5687" required value={newContactData.phone} onChange={(evt) => setNewContactData((prev) => { return {...prev, phone:evt.target.value} } )} type="text" id="phone-number" name="phone-number" />
+                        <input placeholder="+01 234 5687" required value={newContactData.phone} onChange={(evt) => setNewContactData((prev) => { return {...prev, phone:evt.target.value} } )} type="tel" id="phone-number" name="phone-number" />
                     </div>
 
                     <div className="input-group">

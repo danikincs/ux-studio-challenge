@@ -6,7 +6,7 @@ import { useEffect, RefObject } from "react";
 export function useOutsideAlerter(ref:RefObject<HTMLDivElement>, showSettingDetails:string, setShowSettingDetails:(data:string) => void ) {
     useEffect(() => {
         /**
-         * Alert if clicked on outside of element
+         * Set popup to empty string if clicked outside
          */
         function handleClickOutside(event:any) {
             if (ref.current && !ref.current.contains(event.target) && !showSettingDetails.length) {

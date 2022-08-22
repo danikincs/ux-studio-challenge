@@ -67,7 +67,7 @@ function Home() {
         try {
             const deleteRes = await instance.delete("/contact/" + _id)
 
-            if(deleteRes.data.acknowledged) {
+            if(deleteRes.data.success) {
                 setContacts(prev => {
                     const newData = prev.filter((contact:IContact) => contact._id !== _id)
                     return newData
@@ -83,7 +83,7 @@ function Home() {
 
     async function updateContactData(newContactData:IContact) {
         setContacts(prev => {
-            return prev.map((contact:IContact) => contact._id === newContactData._id ? newContactData : contact)
+            return prev.map((contact:IContact) => contact._id === newContactData._id ? {...contact, ...newContactData} : contact)
         })
     }
 
@@ -116,13 +116,15 @@ function Home() {
                     <div ref={outerRef} className='contacts-container'>
                         {contacts.map((contact:IContact) => {
                             return(
-                                <Contact 
-                                    contact={contact} 
-                                    editContact={editContact} 
-                                    deleteContact={deleteContact}
-                                    showSettingDetails={showSettingDetails}
-                                    setShowSettingDetails={setShowSettingDetails}
-                                />
+                                <div key={contact._id}>
+                                    <Contact 
+                                        contact={contact} 
+                                        editContact={editContact} 
+                                        deleteContact={deleteContact}
+                                        showSettingDetails={showSettingDetails}
+                                        setShowSettingDetails={setShowSettingDetails}
+                                    />
+                                </div>
                             )
                         })}
                         {!contacts.length && <p className="info-text">No contacts avalible</p>}

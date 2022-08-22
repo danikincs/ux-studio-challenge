@@ -46,11 +46,4 @@ app.use(errorHandler);
 //routers
 app.use("/contact", contactsRouter);
 
-//Connect to database
-mongoose.connect((process.env.DB_URL as string), {}).then(() => console.log("Mongo DB is connected.")).catch((err) => console.log("Error when connecting to Mongo DB", err));
-
-// make sure Mongoose runs validators on update (not just on create)
-mongoose.set('runValidators', true);
-
-
 export default app;

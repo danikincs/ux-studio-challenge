@@ -1,18 +1,18 @@
-import { ObjectId } from "mongoose";
-import { IContact } from "../interfaces/db.interfaces";
-import Contacts from "../models/contact.model";
+import { Contacts } from "../models/contact.model";
 
 /**
  * get multiple contact objects
  * @param query object with query parameters
  * @returns list of contacts
  */
-export async function getContactsService(query:any) {
+export async function getContactsService() {
     try {
-        const contacts = Contacts.find(query);
+        const contacts = await Contacts.findAll();
+        console.log('contacts', contacts)
         return contacts
     }
     catch(err:any) {
+        console.log('error', err)
         throw Error("Error while getting Contacts");
     }
 }
@@ -22,9 +22,9 @@ export async function getContactsService(query:any) {
  * @param query object with query parameters
  * @returns one contact object
  */
-export async function getContactService(query:any) {
+export async function getContactService(_id:number) {
     try {
-        const contact = Contacts.findOne(query);
+        const contact = await Contacts.findByPk(_id);
         return contact
     }
     catch(err:any) {
@@ -37,9 +37,9 @@ export async function getContactService(query:any) {
  * @param contact contact data with every required parameter
  * @returns new contact object
  */
-export async function createContactService(contact:IContact) {
+export async function createContactService(contact:any) {
     try {
-        const newContact = Contacts.create(contact);
+        const newContact = await Contacts.create(contact);
         return newContact
     }
     catch(err:any) {
@@ -53,9 +53,10 @@ export async function createContactService(contact:IContact) {
  * @param newData contact data (fields not required)
  * @returns new contact object
  */
-export async function updateContactService(_id:string, newData:any) {
+export async function updateContactService(_id:number, newData:any) {
     try {
-        const updatedContact = Contacts.findOneAndUpdate({_id:_id}, newData, {new:true});
+        await Contacts.update(newData, { where: { _id:_id }, returning: true,  });
+        const updatedContact = await Contacts.findOne({ where: { _id:_id }});
         return updatedContact
     }
     catch(err:any) {
@@ -68,12 +69,13 @@ export async function updateContactService(_id:string, newData:any) {
  * @param query object with parameters
  * @returns deletion success
  */
-export async function deleteContactService(query:any) {
+export async function deleteContactService(_id:number) {
     try {
-        const deleted = Contacts.deleteOne(query);
+        const deleted = await Contacts.destroy({where: {_id:_id}});
         return deleted
     }
     catch(err:any) {
+        console.log('err', err)
         throw Error("Error while deleting Contact");
     }
 }
