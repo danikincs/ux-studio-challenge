@@ -34,6 +34,7 @@ function Home() {
     async function getContacts() {
         try {
             const contactsResponse = await instance.get("/contact");
+            console.log('hehe', contactsResponse)
             setContacts(contactsResponse.data);
         }
         catch(err) {
@@ -48,8 +49,8 @@ function Home() {
     }
 
     //set selected to contact object
-    function editContact(_id:string) {
-        const selected = contacts.find((contact:IContact) => contact._id === _id)
+    function editContact(id:string) {
+        const selected = contacts.find((contact:IContact) => contact.id === id)
 
         if(!selected) {
             return;
@@ -60,13 +61,13 @@ function Home() {
     }
 
     //delete contact by id and update state
-    async function deleteContact(_id:string) {
+    async function deleteContact(id:string) {
         try {
-            const deleteRes = await instance.delete("/contact/" + _id)
+            const deleteRes = await instance.delete("/contact/" + id)
 
             if(deleteRes.data.success) {
                 setContacts(prev => {
-                    const newData = prev.filter((contact:IContact) => contact._id !== _id)
+                    const newData = prev.filter((contact:IContact) => contact.id !== id)
                     return newData
                 })
             }            
@@ -81,7 +82,7 @@ function Home() {
     //update contact by data and update state
     async function updateContactData(newContactData:IContact) {
         setContacts(prev => {
-            return prev.map((contact:IContact) => contact._id === newContactData._id ? {...contact, ...newContactData} : contact)
+            return prev.map((contact:IContact) => contact.id === newContactData.id ? {...contact, ...newContactData} : contact)
         })
     }
 
@@ -115,7 +116,7 @@ function Home() {
                     <div ref={outerRef} className='contacts-container'>
                         {contacts.map((contact:IContact) => {
                             return(
-                                <div key={contact._id}>
+                                <div key={contact.id}>
                                     <Contact 
                                         contact={contact} 
                                         editContact={editContact} 

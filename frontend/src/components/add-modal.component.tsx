@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import default_avatar from "../assets/images/avatars/Default.png"
 import instance from "../_helpers/api";
 import TextInput from "./text-input.component";
+import path from "node:path/win32";
 
 interface IProps {
     show:boolean
@@ -20,7 +21,7 @@ interface IProps {
 }
 
 //default contact data
-const defaultContactData = {_id:"", name:"", phone:"", email:"", avatar:""}
+const defaultContactData = {id:"", name:"", phone:"", email:"", avatar:""}
 
 /**
  * Modal for contact addition and update
@@ -65,11 +66,16 @@ export default function AddContactModal(props:IProps) {
             formdata.append("email", newContactData.email);
 
             if(avatar) {
-                formdata.append("avatar", avatar);
+                let fileName = Date.now().toString() + "_" + avatar.name
+                let blob = avatar.slice(0, avatar.size, 'image/png'); 
+                const newFile = new File([blob], fileName, {type: 'image/png'});
+                console.log('newFile', newFile)
+                formdata.append("avatar", newFile);
             }
 
-            if(props.selectedContact && newContactData._id) {
-                const response = await instance.put("/contact/" + newContactData._id, formdata);
+            if(props.selectedContact && newContactData.id) {
+                const response = await instance.put("/contact/" + newContactData.id, formdata, { headers: { 'content-type': 'multipart/form-data' }
+                });
                 props.updateContactData(response.data);
             }
             else {
@@ -112,7 +118,7 @@ export default function AddContactModal(props:IProps) {
                 <p className="headline-1">Add contact</p>
                 <form className="add-contact-form" onSubmit={ (evt) =>submitContactForm(evt)}>
                     <div className="profile-picture-uploader">
-                        <img className="profile-picture" src={(newContactData.avatar && avatar !== undefined) ? newContactData.avatar : (newContactData.avatar && avatar === undefined) ? `${process.env.REACT_APP_API_URL}/${newContactData.avatar}` : default_avatar} alt="uploaded-avatar"></img>
+                        <img className="profile-picture" src={(newContactData.avatar && avatar !== undefined) ? newContactData.avatar : (newContactData.avatar && avatar === undefined) ? `${process.env.REACT_APP_API_URL}/upload-dir/${newContactData.avatar}` : default_avatar} alt="uploaded-avatar"></img>
                         <div>
                             <button onClick={(evt) => openFileUpload(evt)} className="primary-button"><img src={newContactData.avatar ? change : add} alt="plus" />{newContactData.avatar ? "Change Picture" : "Add Picture"}</button>
                             <input  ref={inputRef} className="upload-button" type="file" id="single" onChange={fileInputAction} hidden />
